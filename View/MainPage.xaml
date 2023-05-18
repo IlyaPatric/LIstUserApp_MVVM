@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LIstUserApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:LIstUserApp.Model"
+    xmlns:viewmodel="clr-namespace:LIstUserApp.ViewModel"
+    x:DataType="viewmodel:MainViewModel">
+
+
+    <Grid
+        ColumnDefinitions="*,Auto,*"
+        ColumnSpacing="5"
+        RowDefinitions="*, Auto"
+        RowSpacing="0">
+
+
+        <CollectionView
+            Grid.ColumnSpan="3"
+            ItemsSource="{Binding Users}"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:User">
+
+                    <Grid Padding="16">
+                        <Frame
+                            HeightRequest="126"
+                            IsClippedToBounds="True"
+                            Style="{StaticResource CardView}">
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=GoToDetailPageCommand}" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+
+
+                            <Grid
+                                Padding="0"
+                                ColumnDefinitions="126,*,Auto"
+                                ColumnSpacing="16">
+
+
+                                <Image
+                                    Aspect="AspectFill"
+                                    HeightRequest="126"
+                                    Source="{Binding Image}"
+                                    WidthRequest="126" />
+
+
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="10"
+                                    VerticalOptions="CenterAndExpand">
+                                    <HorizontalStackLayout Spacing="8" VerticalOptions="CenterAndExpand">
+                                        <Label Style="{StaticResource LargeLabel}" Text="{Binding FirstName}" />
+                                        <Label Style="{StaticResource LargeLabel}" Text="{Binding SecondName}" />
+                                    </HorizontalStackLayout>
+
+                                    <Label Style="{StaticResource MediumLabel}" Text="{Binding Birthday}" />
+                                </VerticalStackLayout>
+
+
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="10"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=RemoveUserCommand}"
+                                    CommandParameter="{Binding .}"
+                                    CornerRadius="12"
+                                    Text="Удалить" />
+
+                            </Grid>
+                        </Frame>
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="8"
+            Spacing="8">
+
+            <Button
+                Command="{Binding GetUsersCommand}"
+                CornerRadius="12"
+                Text="Получить пользователей" />
+
+            <Button CornerRadius="12" Text="Создать нового пользователя" />
+
+            <Button
+                Command="{Binding RefreshUser}"
+                CornerRadius="12"
+                Text="Обновить" />
+
+        </HorizontalStackLayout>
+
+
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="3"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+
+    </Grid>
+</ContentPage>

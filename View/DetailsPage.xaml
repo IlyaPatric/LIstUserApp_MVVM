@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LIstUserApp.View.DetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:LIstUserApp.ViewModel"
+    Title="DetailsPage"
+    x:DataType="viewmodel:DetailsViewModel">
+
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="120,Auto">
+
+                <BoxView
+                    Grid.ColumnSpan="3"
+                    Background="{StaticResource Primary}"
+                    HeightRequest="120"
+                    HorizontalOptions="FillAndExpand" />
+
+                <Frame
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Margin="0,60,0,0"
+                    Padding="0"
+                    CornerRadius="12"
+                    HeightRequest="120"
+                    HorizontalOptions="Center"
+                    IsClippedToBounds="True"
+                    WidthRequest="260">
+
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="120"
+                        HorizontalOptions="Center"
+                        Source="{Binding User.Image}"
+                        VerticalOptions="Center"
+                        WidthRequest="260" />
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout Margin="16,100,16,0" Spacing="16">
+                <Entry Text="{Binding User.FirstName}" />
+                <Entry Text="{Binding User.SecondName}" />
+
+                <DatePicker Date="{Binding User.Birthday}" />
+
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Button
+                        Command="{Binding SaveDataCommand}"
+                        CommandParameter="{Binding User}"
+                        Text="Сохранить" />
+                    <!--
+                    <Button Grid.Column="2" Text="Удалить" />
+                    -->
+                </Grid>
+            </VerticalStackLayout>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
